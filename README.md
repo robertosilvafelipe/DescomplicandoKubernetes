@@ -1,8 +1,8 @@
 # 🚀 Descomplicando Kubernetes — Cluster local com kind
 
-Este tutorial tem como objetivo **ensinar, passo a passo**, como **criar um cluster Kubernetes local usando o kind (Kubernetes IN Docker)** e apresentar os **comandos básicos do kind e do kubectl**.
+Este tutorial tem como objetivo ensinar, passo a passo e de forma extremamente didática, como criar um cluster Kubernetes local utilizando o kind (Kubernetes IN Docker), além de apresentar os comandos básicos do kind e do kubectl.
 
-No final, há um **tópico extra** ensinando como ativar o **autocompletion do kubectl**, algo essencial para produtividade no dia a dia.
+Ao final, há um tópico extra explicando como ativar o autocomplete do kubectl, um recurso essencial para produtividade no dia a dia.
 
 Este material é ideal para:
 - Iniciantes em Kubernetes
@@ -14,141 +14,171 @@ Este material é ideal para:
 
 ## 🧠 O que é o kind?
 
-O **kind** (*Kubernetes IN Docker*) é uma ferramenta que permite criar **clusters Kubernetes locais**, usando **containers Docker como nós**.
+O kind (Kubernetes IN Docker) é uma ferramenta que permite criar clusters Kubernetes locais utilizando containers Docker como nós do cluster.
 
-Ele é muito utilizado para:
+Ele é amplamente utilizado para:
 - Estudos
 - Testes
 - Laboratórios locais
 - Simulações de ambientes Kubernetes
 
-🔗 Site oficial:  
+Site oficial do kind:  
 https://kind.sigs.k8s.io/
 
 ---
 
 ## 📌 Pré-requisitos
 
-Antes de começar, você precisa ter instalado:
+Antes de iniciar este tutorial, você precisa ter os seguintes componentes instalados em sua máquina:
 
-- **Docker**
-  - https://docs.docker.com/get-docker/
-- **kubectl**
-  - https://kubernetes.io/docs/tasks/tools/
-- **kind**
-  - https://kind.sigs.k8s.io/docs/user/quick-start/
+- Docker  
+  https://docs.docker.com/get-docker/
 
-> 💡 Este tutorial foi pensado para Linux/WSL, mas funciona também em macOS.
+- kubectl  
+  https://kubernetes.io/docs/tasks/tools/
+
+- kind  
+  https://kind.sigs.k8s.io/docs/user/quick-start/
+
+Este tutorial foi pensado para Linux e WSL, mas também funciona em macOS.
 
 ---
 
-## 🔧 Instalando o kind
+## 🔧 Instalando o kind no Linux
 
-### Download do binário
+### Baixando o binário do kind
 
 ```bash
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.23.0/kind-linux-amd64
-Tornando o binário executável
+```
+
+### Tornando o binário executável
+
+```bash
 chmod +x ./kind
-Movendo para um diretório do PATH
+```
+
+### Movendo o binário para um diretório do PATH
+
+```bash
 sudo mv ./kind /usr/local/bin/kind
-Validando a instalação
+```
+
+### Validando a instalação
+
+```bash
 kind version
-🏗️ Criando um cluster Kubernetes com kind
-Criando um cluster simples
+```
+
+---
+
+## 🏗️ Criando um cluster Kubernetes com kind
+
+```bash
 kind create cluster
+```
 
-Esse comando:
-
-Cria um cluster Kubernetes local
-
-Usa Docker como backend
-
-Cria automaticamente o contexto no kubectl
-
-Criando um cluster com nome personalizado
+```bash
 kind create cluster --name meu-cluster
+```
 
-Isso é útil quando você quer trabalhar com mais de um cluster local.
-
-Listando clusters criados
+```bash
 kind get clusters
-Deletando um cluster
+```
+
+```bash
 kind delete cluster --name meu-cluster
-🔍 Verificando o cluster com kubectl
-Verificando se o cluster está acessível
+```
+
+---
+
+## 🔍 Verificando o cluster com kubectl
+
+```bash
 kubectl cluster-info
-Listando os nós do cluster
+```
+
+```bash
 kubectl get nodes
+```
 
-Saída esperada (exemplo):
+---
 
-NAME                 STATUS   ROLES           AGE   VERSION
-kind-control-plane   Ready    control-plane   2m    v1.xx.x
-📦 Comandos básicos do kubectl
-Listar pods
+## 📦 Comandos básicos do kubectl
+
+```bash
 kubectl get pods
+```
 
-Por padrão, lista os pods do namespace default.
-
-Listar pods de todos os namespaces
+```bash
 kubectl get pods -A
-Listar services
+```
+
+```bash
 kubectl get svc
-Criar um deployment de exemplo
+```
+
+```bash
 kubectl create deployment nginx --image=nginx
-Verificar o deployment criado
+```
+
+```bash
 kubectl get deployments
-Expor o deployment como serviço
+```
+
+```bash
 kubectl expose deployment nginx --type=NodePort --port=80
-Descrever um recurso (debug)
+```
+
+```bash
 kubectl describe pod NOME_DO_POD
-Ver logs de um pod
+```
+
+```bash
 kubectl logs NOME_DO_POD
-Remover recursos
+```
+
+```bash
 kubectl delete deployment nginx
 kubectl delete svc nginx
-🧭 Trabalhando com contextos
-Ver contexto atual
-kubectl config current-context
-Listar todos os contextos
-kubectl config get-contexts
-Trocar de contexto
-kubectl config use-context kind-meu-cluster
-⚡ TÓPICO EXTRA — Ativando o autocomplete do kubectl
+```
 
-O autocomplete ajuda muito no dia a dia, evitando erros de digitação e acelerando comandos.
+---
 
-Instalando o bash-completion
+## ⚡ TÓPICO EXTRA — Ativando o autocomplete do kubectl
+
+```bash
 sudo apt update
 sudo apt install -y bash-completion
-Ativando o autocomplete do kubectl
+```
+
+```bash
 kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
-Ativando para o usuário atual
+```
+
+```bash
 echo 'source <(kubectl completion bash)' >> ~/.bashrc
-
-Recarregue o shell:
-
 source ~/.bashrc
-Testando o autocomplete
+```
 
-Digite:
+Teste:
 
+```bash
 kubectl get po<TAB>
+```
 
-O shell completará automaticamente para:
+---
 
-kubectl get pods
-📚 Links de Referência Oficiais
+## 📚 Links de Referência Oficiais
 
-Kubernetes Docs
-https://kubernetes.io/docs/
+- Kubernetes Docs  
+  https://kubernetes.io/docs/
 
-kubectl Cheat Sheet
-https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+- kubectl Cheat Sheet  
+  https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 
-kind Documentation
-https://kind.sigs.k8s.io/docs/
+- kind Docs  
+  https://kind.sigs.k8s.io/docs/
 
-Docker Documentation
-https://docs.docker.com/
+- Docker Docs  
+  https://docs.docker.com/
